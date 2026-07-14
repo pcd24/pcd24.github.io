@@ -363,7 +363,7 @@
     <div class="hero-actions">
       <a href="#projects" class="btn btn-primary">View Projects</a>
       <a href="#contact" class="btn btn-ghost">Get in Touch</a>
-      <a href="#" class="btn btn-ghost" id="RESUME.pdf">Download Resume ↓</a>
+      <a href="RESUME.pdf" download class="btn btn-ghost">Download Resume ↓</a>
     </div>
     <div class="stat-strip">
       <div class="stat"><div class="stat-num">8.82</div><div class="stat-label">CGPA</div></div>
@@ -534,14 +534,12 @@
 <footer>designed &amp; built by Charu — updated 2026</footer>
 
 <script>
-  // scroll-triggered fade-ins
   const faders = document.querySelectorAll('.fade-in');
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
   },{threshold:0.12});
   faders.forEach(f=>io.observe(f));
 
-  // rail fill tracks scroll progress through main content
   const railFill = document.getElementById('railFill');
   function updateRail(){
     const doc = document.documentElement;
@@ -553,7 +551,6 @@
   document.addEventListener('scroll', updateRail, {passive:true});
   updateRail();
 
-  // cursor-reactive glow on cards
   document.querySelectorAll('.card').forEach(card=>{
     card.addEventListener('mousemove', (e)=>{
       const rect = card.getBoundingClientRect();
@@ -564,11 +561,7 @@
     });
   });
 
-  // resume link placeholder behavior
-  document.getElementById('resumeLink').addEventListener('click', function(e){
-    e.preventDefault();
-    alert('Add your resume PDF to this folder and update this link to point to it, e.g. href="resume.pdf"');
-  });
+
 </script>
 
 </body>
