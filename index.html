@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charu Datta Perur — CSE, AI & Robotics | Backend Engineer</title>
+<meta name="description" content="Portfolio of Charu Datta Perur — B.Tech CSE (AI & Robotics), VIT Chennai. Backend development, systems, and embedded robotics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0f1a;
+    --bg-panel: #111a2b;
+    --bg-panel-2: #0d1420;
+    --line: #1f2c42;
+    --text: #e7ebf3;
+    --text-dim: #8a94a8;
+    --text-faint: #5b6478;
+    --copper: #c9834a;
+    --copper-bright: #e39c5f;
+    --cyan: #5fd6c4;
+    --radius: 3px;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--copper);color:#0a0f1a;}
+
+  /* ---------- background grid texture ---------- */
+  .grid-bg{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.35;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 75%);
+  }
+
+  /* ---------- layout shell ---------- */
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 28px;
+    position:relative;
+  }
+
+  /* ---------- signature: the trace rail ---------- */
+  .rail{
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:2px;
+    background:var(--line);
+    transform-origin:top;
+  }
+  .rail-fill{
+    position:absolute;
+    left:0;top:0;width:100%;
+    background:linear-gradient(var(--copper), var(--cyan));
+    height:0%;
+    transition:height 0.15s linear;
+  }
+  .node{
+    position:absolute;
+    left:-5px;
+    width:12px;height:12px;
+    border-radius:50%;
+    background:var(--bg-panel-2);
+    border:2px solid var(--line);
+    transition:border-color .4s ease, background .4s ease, box-shadow .4s ease;
+  }
+  .node.lit{
+    border-color:var(--copper);
+    background:var(--copper);
+    box-shadow:0 0 12px 2px rgba(201,131,74,0.55);
+  }
+  @media (max-width:760px){ .rail-track{display:none;} }
+
+  section{padding:96px 0;position:relative;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--copper);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:20px;height:1px;
+    background:var(--copper);
+    display:inline-block;
+  }
+
+  h1,h2,h3{font-family:var(--sans);font-weight:800;letter-spacing:-0.02em;}
+  h2{font-size:clamp(26px,3.4vw,36px);margin-bottom:14px;color:var(--text);}
+  .section-sub{color:var(--text-dim);font-size:15.5px;max-width:560px;margin-bottom:48px;}
+
+  code, .mono{font-family:var(--mono);}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    background:rgba(10,15,26,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:920px;margin:0 auto;padding:0 28px;
+    height:60px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .nav-mark{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--text);}
+  .nav-mark span{color:var(--copper);}
+  .nav-links{display:flex;gap:28px;font-family:var(--mono);font-size:13px;color:var(--text-dim);}
+  .nav-links a{transition:color .2s;position:relative;padding-bottom:2px;}
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:0;width:0%;height:1px;
+    background:var(--copper-bright);transition:width .25s ease;
+  }
+  .nav-links a:hover{color:var(--copper-bright);}
+  .nav-links a:hover::after{width:100%;}
+  @media (max-width:640px){ .nav-links{gap:16px;font-size:11.5px;} }
+
+  /* ---------- hero ---------- */
+  .hero{padding-top:168px;padding-bottom:100px;}
+  .hero-kicker{
+    font-family:var(--mono);font-size:13px;color:var(--cyan);
+    letter-spacing:0.1em;margin-bottom:22px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .dot-live{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px 2px rgba(95,214,196,0.6);animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+  .hero h1{
+    font-size:clamp(38px,6.4vw,64px);
+    line-height:1.05;
+    margin-bottom:22px;
+  }
+  .hero h1 .accent{
+    background:linear-gradient(90deg, var(--copper-bright) 0%, var(--cyan) 25%, var(--copper-bright) 50%, var(--cyan) 75%, var(--copper-bright) 100%);
+    background-size:250% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:shimmer 6s linear infinite;
+  }
+  @keyframes shimmer{
+    0%{background-position:0% center;}
+    100%{background-position:250% center;}
+  }
+  .hero-desc{
+    font-size:17.5px;color:var(--text-dim);max-width:600px;margin-bottom:36px;
+  }
+  .hero-desc strong{color:var(--text);font-weight:600;}
+
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px;}
+  .btn{
+    font-family:var(--mono);font-size:13.5px;padding:12px 22px;border-radius:var(--radius);
+    border:1px solid var(--line);transition:all .2s ease;display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary{background:var(--copper);color:#0a0f1a;border-color:var(--copper);font-weight:600;
+    animation:breathe 3.2s ease-in-out infinite;}
+  .btn-primary:hover{background:var(--copper-bright);border-color:var(--copper-bright);transform:translateY(-1px);animation-play-state:paused;}
+  @keyframes breathe{
+    0%,100%{box-shadow:0 0 0 0 rgba(201,131,74,0.0);}
+    50%{box-shadow:0 0 0 6px rgba(201,131,74,0.12);}
+  }
+  @media (prefers-reduced-motion: reduce){ .btn-primary{animation:none;} }
+  .btn-ghost{color:var(--text);}
+  .btn-ghost:hover{border-color:var(--copper);color:var(--copper-bright);}
+
+  .stat-strip{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  }
+  .stat{padding:18px 20px;border-right:1px solid var(--line);background:var(--bg-panel-2);}
+  .stat:last-child{border-right:none;}
+  .stat-num{font-family:var(--mono);font-size:22px;color:var(--copper-bright);font-weight:600;}
+  .stat-label{font-size:11.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em;margin-top:4px;}
+  @media (max-width:640px){ .stat-strip{grid-template-columns:repeat(2,1fr);} .stat{border-bottom:1px solid var(--line);} }
+
+  /* ---------- experience ---------- */
+  .exp-item{
+    display:grid;grid-template-columns:150px 1fr;gap:24px;
+    padding:28px 0;border-top:1px solid var(--line);
+  }
+  .exp-item:first-of-type{border-top:none;}
+  .exp-period{font-family:var(--mono);font-size:12.5px;color:var(--text-faint);padding-top:3px;}
+  .exp-role{font-size:17px;font-weight:700;margin-bottom:4px;}
+  .exp-org{font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:12px;}
+  .exp-desc{color:var(--text-dim);font-size:15px;max-width:560px;}
+  @media (max-width:600px){ .exp-item{grid-template-columns:1fr;gap:8px;} }
+
+  /* ---------- projects ---------- */
+  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+  @media (max-width:700px){ .proj-grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+    display:flex;flex-direction:column;
+    position:relative;overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(201,131,74,0.14), transparent 70%);
+    opacity:0;
+    transition:opacity .3s ease;
+    pointer-events:none;
+  }
+  .card:hover::before{opacity:1;}
+  .card:hover{border-color:var(--copper);transform:translateY(-3px);box-shadow:0 12px 30px -14px rgba(201,131,74,0.35);}
+
+  .card-more{
+    align-items:center;justify-content:center;text-align:center;
+    border-style:dashed;border-color:var(--line);
+    background:transparent;
+    gap:6px;
+  }
+  .card-more h3{color:var(--text-dim);}
+  .card-more:hover{border-color:var(--copper);}
+  .card-more .card-tag{
+    display:flex;align-items:center;gap:8px;justify-content:center;
+  }
+  .card-more .card-tag::before{
+    content:"";width:6px;height:6px;border-radius:50%;background:var(--cyan);
+    box-shadow:0 0 8px 2px rgba(95,214,196,0.6);
+    animation:pulse 2s ease-in-out infinite;
+  }
+  .card-more p{color:var(--text-faint);}
+  .card-tag{
+    font-family:var(--mono);font-size:11px;color:var(--copper);
+    text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;
+  }
+  .card h3{font-size:18.5px;margin-bottom:10px;}
+  .card p{font-size:14.5px;color:var(--text-dim);margin-bottom:16px;flex-grow:1;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:7px;}
+  .tag{
+    font-family:var(--mono);font-size:11px;color:var(--text-dim);
+    border:1px solid var(--line);padding:4px 9px;border-radius:20px;
+  }
+
+  .section-divider{
+    display:flex;align-items:center;gap:14px;margin:52px 0 28px;
+    font-family:var(--mono);font-size:12px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.1em;
+  }
+  .section-divider::after{content:"";flex:1;height:1px;background:var(--line);}
+
+  /* ---------- skills ---------- */
+  .skill-groups{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+  @media (max-width:640px){ .skill-groups{grid-template-columns:1fr;} }
+  .skill-group h4{
+    font-family:var(--mono);font-size:12.5px;color:var(--cyan);
+    text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;
+  }
+  .skill-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .skill-pill{
+    font-size:13.5px;padding:7px 13px;border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--bg-panel-2);color:var(--text);
+  }
+
+  /* ---------- contact ---------- */
+  .contact-panel{
+    background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:44px;text-align:left;
+  }
+  .contact-panel h2{margin-bottom:12px;}
+  .contact-links{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px;}
+
+  footer{
+    padding:36px 0;text-align:center;font-family:var(--mono);font-size:12px;color:var(--text-faint);
+  }
+
+  /* fade-in on scroll */
+  .fade-in{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
+  .fade-in.in{opacity:1;transform:translateY(0);}
+
+  .placeholder-note{
+    font-family:var(--mono);font-size:11.5px;color:var(--text-faint);
+    border-left:2px solid var(--copper);padding-left:10px;margin-top:6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-mark">charu<span>.</span>dev</div>
+    <div class="nav-links">
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#other-projects">Builds</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="rail-track" style="position:fixed;left:calc(50% - 460px);top:0;height:100%;width:2px;z-index:1;">
+  <div class="rail" id="rail" style="position:absolute;top:170px;bottom:60px;">
+    <div class="rail-fill" id="railFill"></div>
+  </div>
+</div>
+
+<main class="wrap" style="z-index:2;">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-kicker"><span class="dot-live"></span> BUILDING &mdash; BACKEND SYSTEMS &amp; EMBEDDED ROBOTICS</div>
+    <h1>Charu — I build things that<br>route data <span class="accent">and</span> move in the real world.</h1>
+    <p class="hero-desc">
+      B.Tech Computer Science Engineering (AI &amp; Robotics), VIT Chennai — graduating <strong>Aug 2027</strong>, CGPA <strong>8.82</strong>.
+      I work across two layers: backend systems &mdash; caches, rate limiters, routing logic &mdash; and the embedded hardware
+      that acts on the physical world. Currently deep in a structured SDE prep sprint: DSA, systems design, and shipping projects end to end.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      <a href="#" class="btn btn-ghost" id="resumeLink">Download Resume ↓</a>
+    </div>
+    <div class="stat-strip">
+      <div class="stat"><div class="stat-num">8.82</div><div class="stat-label">CGPA</div></div>
+      <div class="stat"><div class="stat-num">2</div><div class="stat-label">Internships</div></div>
+      <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Shipped Projects</div></div>
+      <div class="stat"><div class="stat-num">2027</div><div class="stat-label">Graduating</div></div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="fade-in">
+    <div class="eyebrow">Experience</div>
+    <h2>Where I've worked</h2>
+    <p class="section-sub">Two very different environments — a research lab building inference systems, and a product team shipping mobile UI.</p>
+
+    <div class="exp-item">
+      <div class="exp-period">May 2025 – Oct 2025</div>
+      <div>
+        <div class="exp-role">Research Intern</div>
+        <div class="exp-org">Centre for Advanced Data Science (CADS), VIT Chennai</div>
+        <p class="exp-desc">Co-authored <strong style="color:var(--text)">CRISP</strong>, a prompt-routing system that
+        scores the creativity level of incoming requests and forwards each to the most cost-effective generative
+        model, achieving up to <strong style="color:var(--text)">35% savings</strong> in inference spend. Assembled a
+        500-sample training set with GPT/Gemini API ratings and human annotation, then evaluated GAN, Transformer,
+        and Diffusion architectures head-to-head using CLIP Score.</p>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-period">May 2025 – July 2025</div>
+      <div>
+        <div class="exp-role">Application Development Intern</div>
+        <div class="exp-org">Integra Global Solutions</div>
+        <p class="exp-desc">Built and maintained cross-platform mobile UI components, working close to the
+        product team to ship features used by real users on both iOS and Android.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE PROJECTS -->
+  <section id="projects" class="fade-in">
+    <div class="eyebrow">Featured Work</div>
+    <h2>Core projects</h2>
+    <p class="section-sub">The two projects that anchor my resume — one systems research, one backend engineering.</p>
+
+    <div class="proj-grid">
+      <div class="card">
+        <div class="card-tag">Embedded Systems</div>
+        <h3>Smart RFID Access Control with Face Capture</h3>
+        <p>Distributed authentication logic across three microcontrollers — an Arduino Uno handles RFID card
+        classification and relays results over UART to an 8051, which drives the servo lock, I2C LCD, and
+        LED/buzzer outputs. Solved stale-frame capture by triggering a full ESP32-CAM deinit/reinit cycle on
+        each intrusion event, exposing the latest intruder photo over a self-hosted Wi-Fi endpoint with
+        IPFS-ready architecture for future audit logging.</p>
+        <div class="tag-row">
+          <span class="tag">Arduino Uno</span>
+          <span class="tag">8051</span>
+          <span class="tag">ESP32-CAM</span>
+          <span class="tag">MFRC522</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-tag">Automation</div>
+        <h3>AutoNova Parts — Inventory Stock Alert System</h3>
+        <p>Eliminated manual restocking with a UiPath bot that polls the admin dashboard every 15 seconds, fires
+        supplier emails via Gmail SMTP, sends WhatsApp confirmations, and clicks the ML restock button
+        autonomously — zero human intervention after checkout. Engineered a browser-only ensemble forecasting
+        engine (EMA + linear trend + velocity scoring) to predict 7-day part demand and auto-generate PDF
+        purchase orders, syncing admin and storefront views in real time via BroadcastChannel with no backend
+        server.</p>
+        <div class="tag-row">
+          <span class="tag">UiPath</span>
+          <span class="tag">RPA</span>
+          <span class="tag">Forecasting</span>
+          <span class="tag">jsPDF</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OTHER PROJECTS -->
+  <section id="other-projects" class="fade-in">
+    <div class="eyebrow">Beyond the Resume</div>
+    <h2>Hardware &amp; robotics builds</h2>
+    <p class="section-sub">Independent projects that don't fit neatly on a one-page resume, but show the other
+    half of what "AI &amp; Robotics" means to me — sensors, actuators, and control logic, not just APIs.</p>
+
+    <div class="proj-grid">
+      <div class="card">
+        <div class="card-tag">Robotics</div>
+        <h3>Bluetooth-Controlled RC Car</h3>
+        <p>Started as a basic Bluetooth-controlled car, then extended in stages: HC-SR04 ultrasonic obstacle
+        detection with buzzer alerts, gyroscope-based steering via a custom MIT App Inventor app, and an
+        MPU6050 hardware toggle between control modes.</p>
+        <div class="tag-row"><span class="tag">Arduino</span><span class="tag">MPU6050</span><span class="tag">App Inventor</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-tag">Robotics</div>
+        <h3>Gesture-Based Medical Robot</h3>
+        <p>A robot controlled through hand gestures, built to explore touch-free interaction for medical
+        assistance contexts — combining sensor input with real-time motion control.</p>
+        <div class="tag-row"><span class="tag">Gesture Control</span><span class="tag">Embedded C</span><span class="tag">Robotics</span></div>
+      </div>
+
+      <div class="card card-more">
+        <div class="card-tag">Always Building</div>
+        <h3>More to come</h3>
+        <p>This space grows as I ship — check back soon.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="fade-in">
+    <div class="eyebrow">Toolkit</div>
+    <h2>Skills</h2>
+    <p class="section-sub">Split across the two layers I work in — software systems and the hardware that talks to them.</p>
+
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h4>Languages &amp; Web</h4>
+        <div class="skill-list">
+          <span class="skill-pill">Java</span>
+          <span class="skill-pill">C</span>
+          <span class="skill-pill">C++</span>
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">React.js</span>
+          <span class="skill-pill">Next.js</span>
+          <span class="skill-pill">Node.js</span>
+          <span class="skill-pill">HTML5 / CSS3</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Tools &amp; Other</h4>
+        <div class="skill-list">
+          <span class="skill-pill">Git</span>
+          <span class="skill-pill">Arduino IDE</span>
+          <span class="skill-pill">UiPath</span>
+          <span class="skill-pill">React Native</span>
+          <span class="skill-pill">GSAP</span>
+          <span class="skill-pill">Embedded Systems</span>
+          <span class="skill-pill">Team Leadership</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="fade-in">
+    <div class="contact-panel">
+      <div class="eyebrow">Get in Touch</div>
+      <h2>Let's talk.</h2>
+      <p class="section-sub" style="margin-bottom:0;">Open to SDE/developer roles and interesting collaborations — reach out.</p>
+      <div class="contact-links">
+        <a href="mailto:cperur21@gmail.com" class="btn btn-primary">Email Me</a>
+        <a href="https://github.com/pcd24" class="btn btn-ghost">GitHub</a>
+        <a href="https://www.linkedin.com/in/charu-datta-p-4520b9293" class="btn btn-ghost">LinkedIn</a>
+        <a href="tel:+919908134363" class="btn btn-ghost">+91 99081 34363</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>designed &amp; built by Charu — updated 2026</footer>
+
+<script>
+  // scroll-triggered fade-ins
+  const faders = document.querySelectorAll('.fade-in');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  },{threshold:0.12});
+  faders.forEach(f=>io.observe(f));
+
+  // rail fill tracks scroll progress through main content
+  const railFill = document.getElementById('railFill');
+  function updateRail(){
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = (doc.scrollHeight - doc.clientHeight);
+    const pct = scrollHeight > 0 ? Math.min(100, (scrollTop/scrollHeight)*100) : 0;
+    if(railFill) railFill.style.height = pct + '%';
+  }
+  document.addEventListener('scroll', updateRail, {passive:true});
+  updateRail();
+
+  // cursor-reactive glow on cards
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('mousemove', (e)=>{
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+
+  // resume link placeholder behavior
+  document.getElementById('resumeLink').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('Add your resume PDF to this folder and update this link to point to it, e.g. href="resume.pdf"');
+  });
+</script>
+
+</body>
+</html>
